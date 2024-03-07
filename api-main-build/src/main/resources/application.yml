@@ -1,0 +1,87 @@
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+
+management:
+  endpoints:
+    web:
+      base-path: /rest/actuator
+      exposure:
+        include: '*'
+
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    display-request-duration: true
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    use-root-path: true
+    show-actuator: true
+  show-actuator: true
+  cache:
+    disabled: true
+server:
+  forward-headers-strategy: framework
+
+spring:
+  liquibase:
+    enabled: true
+  # Quartz
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: true
+  # Docker
+  thread-executor: standard
+  docker:
+    compose:
+      # para testar em ambiente kubernetes locals
+      enabled: true
+      file: compose-base.yaml
+      ports:
+        - '5005:5005'
+      volumes:
+        - postgres-ismyburguer:/var/lib/postgresql/data
+        - mongodb-ismyburguer:/data/db
+
+# Database - Postgres
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://${POSTGRES_HOST}:5433/ismyburguer
+#    username: ${POSTGRES_USER}
+#    password: ${POSTGRES_PASSWORD}
+
+# Database - H2 - PARA TESTES
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:ismyburguer
+    username: test
+    password: test
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: none # When you launch the application for the first time - switch "none" at "create"
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    show-sql: true
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+#    properties:
+#      hibernate:
+#        default_schema: public
+#        default_catalog: public
+  data:
+    # MONGODB properties
+# no momento ainda não está sendo usado dentro do projeto
+#    mongodb:
+#      user: ${MONGO_USERNAME}
+#      password: ${MONGO_PASSWORD}
+#      uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb-ismyburguer:27018/ismyburguer?authSource=admin
