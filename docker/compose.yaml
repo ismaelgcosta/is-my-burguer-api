@@ -1,0 +1,23 @@
+include:
+  - 'compose-base.yaml'
+
+services:
+  is-my-burguer-api:
+    container_name: is-my-burguer-api
+    image: docker.io/ismaelgcosta/is-my-burguer-app:is-my-burguer-api-1.0.5
+    build:
+        dockerfile: Dockerfile
+    links:
+      - postgres-ismyburguer
+      - mongodb-ismyburguer
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - MONGO_PASSWORD
+      - MONGO_USERNAME
+    ports:
+      - '127.0.0.1:8081:8080'
+    restart: unless-stopped
+    networks:
+      - ismyburguer-backend
