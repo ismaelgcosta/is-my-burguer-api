@@ -67,7 +67,7 @@ jobs:
     environment: production
     env:
       IMAGE_VERSION: $(date +%s)
-      IMAGE_NAME: is-my-burguer-api-v${{env.IMAGE_VERSION}}
+      IMAGE_NAME: is-my-burguer-api-v$(date +%s)
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
