@@ -5,6 +5,7 @@ import br.com.ismyburguer.cliente.adapter.interfaces.in.CadastrarClienteUseCase;
 import br.com.ismyburguer.cliente.web.api.converter.CadastrarClienteRequestConverter;
 import br.com.ismyburguer.cliente.web.api.request.CriarClienteRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class CadastrarClienteAPI {
         this.cadastrarClienteRequestConverter = cadastrarClienteRequestConverter;
     }
 
-    @Operation(method = "Cadastrar Cliente", description = "Cadastrar Cliente")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), method = "Cadastrar Cliente", description = "Cadastrar Cliente")
     @PostMapping
     public UUID cadastrarCliente(@RequestBody CriarClienteRequest criarClienteRequest) {
         return cadastrarClienteUseCase.cadastrar(cadastrarClienteRequestConverter.convert(criarClienteRequest));

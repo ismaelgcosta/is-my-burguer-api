@@ -5,6 +5,7 @@ import br.com.ismyburguer.controlepedido.adapter.interfaces.in.FinalizarControle
 import br.com.ismyburguer.controlepedido.entity.ControlePedido;
 import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -24,7 +25,7 @@ public class FinalizarControlePedidoAPI {
         this.useCase = useCase;
     }
 
-    @Operation(method = "Pedido Pronto", description = "Pedido Pronto")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), method = "Pedido Pronto", description = "Pedido Pronto")
     @PutMapping("/{pedidoId}/pronto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void pedidoPronto(

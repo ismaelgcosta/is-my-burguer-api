@@ -22,6 +22,12 @@ public class ConsultarClienteUseCaseImpl implements ConsultarClienteUseCase {
         return repository.obterPeloEmail(query.email())
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não foi encontrado"));
     }
+
+    @Override
+    public Cliente buscarPorCpf(ConsultaClientePorCpf query) {
+        return repository.obterPeloEmail(query.cpf())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não foi encontrado"));
+    }
     @Override
     public Cliente buscarPorId(ConsultaClientePorId query) {
         return repository.obterPeloClienteId(UUID.fromString(query.clienteId()))
@@ -29,7 +35,17 @@ public class ConsultarClienteUseCaseImpl implements ConsultarClienteUseCase {
     }
 
     @Override
+    public Cliente buscarPorUsername(ConsultaClientePorUsername query) {
+        return repository.obterPeloClienteUsername(query.username())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não foi encontrado"));
+    }
+
+    @Override
     public boolean existsById(UUID id) {
         return repository.existsById(id);
+    }
+    @Override
+    public boolean existsByUsername(String username) {
+        return repository.existsByUsername(username);
     }
 }

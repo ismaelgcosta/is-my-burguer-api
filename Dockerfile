@@ -3,6 +3,7 @@ FROM maven:3.9.5-eclipse-temurin-21-alpine as build
 WORKDIR /is-my-burguer
 #
 COPY ./ ./
+RUN mvn clean
 RUN mvn install
 
 ENV POSTGRES_USER="uri"
@@ -17,4 +18,4 @@ EXPOSE 5005
 COPY --from=build /is-my-burguer/api-main-build/target/is-my-burguer-app.jar is-my-burguer-app.jar
 
 ENTRYPOINT ["java","-jar","is-my-burguer-app.jar","--server.port=8080","-Dspring.profiles.active=production"]
-#CMD ["sleep","infinity"]
+#CMD ["sleep","infinity"] Only for testing

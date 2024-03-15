@@ -4,18 +4,22 @@ include:
 services:
   is-my-burguer-api:
     container_name: is-my-burguer-api
-    image: docker.io/ismaelgcosta/is-my-burguer-app:is-my-burguer-api-1.0.5
+    image: docker.io/ismaelgcosta/is-my-burguer-app:is-my-burguer-api-2.0.0
     build:
         dockerfile: Dockerfile
     links:
       - postgres-ismyburguer
       - mongodb-ismyburguer
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
+      - CLIENT_CREDENTIALS_ID
+      - CLIENT_CREDENTIALS_SECRET
       - POSTGRES_HOST
-      - MONGO_PASSWORD
-      - MONGO_USERNAME
+      - POSTGRES_PASSWORD
+      - POSTGRES_USER
+      - CLIENT_DOMAIN
+      - AWS_REGION
+      - AWS_API_GATEWAY_ID
+      - AWS_COGNITO_USER_POOL_ID
     ports:
       - '127.0.0.1:8081:8080'
     restart: unless-stopped
