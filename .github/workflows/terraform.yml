@@ -67,7 +67,6 @@ jobs:
     environment: production
     env:
       IMAGE_VERSION: $(date +%s)
-      IMAGE_NAME: is-my-burguer-api-v$(date +%s)
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -83,6 +82,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Generate Name        
+        run: echo "::set-env name=IMAGE_NAME::is-my-burguer-api-v$(date +%s)"
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{env.IMAGE_NAME}}
