@@ -83,7 +83,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
+        run: ls #docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
 
       - name: Push the Docker image
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -109,17 +109,17 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        working-directory: ./terraform
+        working-directory: terraform
         run: terraform init
 
       # Checks that all Terraform configuration files adhere to a canonical format
       - name: Terraform Format
-        working-directory: ./terraform
+        working-directory: terraform
         run: terraform fmt
 
       # Generates an execution plan for Terraform
       - name: Terraform Plan
-        working-directory: ./terraform
+        working-directory: terraform
         run:  terraform plan -input=false -var="TF_VAR_IMAGE_VERSION=ami-${{env.IMAGE_NAME}}"
 
         # On push to "main", build or change infrastructure according to Terraform configuration files
