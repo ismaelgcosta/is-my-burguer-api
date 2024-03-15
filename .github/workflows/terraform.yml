@@ -85,10 +85,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{env.IMAGE_NAME}}
+        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
 
       - name: Push the Docker image
-        run: docker image push ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app
+        run: docker image push ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
             
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
