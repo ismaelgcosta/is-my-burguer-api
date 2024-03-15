@@ -6,6 +6,7 @@ import br.com.ismyburguer.cliente.web.api.converter.AlterarClienteRequestConvert
 import br.com.ismyburguer.cliente.web.api.request.AlterarClienteRequest;
 import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -25,7 +26,7 @@ public class AlterarClienteAPI {
         this.converter = converter;
     }
 
-    @Operation(method = "Alterar Cliente", description = "Alterar Cliente")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), method = "Alterar Cliente", description = "Alterar Cliente")
     @PutMapping("/{clienteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void alterarCliente(

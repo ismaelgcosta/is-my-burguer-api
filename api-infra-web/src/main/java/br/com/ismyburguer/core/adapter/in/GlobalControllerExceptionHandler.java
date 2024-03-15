@@ -2,20 +2,28 @@ package br.com.ismyburguer.core.adapter.in;
 
 import br.com.ismyburguer.core.exception.BusinessException;
 import br.com.ismyburguer.core.exception.EntityNotFoundException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
+import org.springframework.http.*;
+import org.springframework.util.CollectionUtils;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.time.Instant;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 @RestControllerAdvice
 class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler {
@@ -59,4 +67,40 @@ class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)  // 422
+    @ExceptionHandler(FeignException.class)
+    ResponseEntity<Object> handleFeignExceptionBadRequest(FeignException e) throws IOException {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        problemDetail.setTitle("Erro ao validar estrutura de dados");
+        Optional<ByteBuffer> byteBuffer = e.responseBody();
+        if( byteBuffer.isPresent()) {
+           return ResponseEntity.status(e.status()).body(new ObjectMapper().readValue(byteBuffer.get().array(), JsonNode.class));
+        } else {
+            problemDetail.setDetail(e.getLocalizedMessage());
+        }
+
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(problemDetail);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
+        problemDetail.setTitle("Erro ao validar estrutura de dados");
+
+        List<ObjectError> constraintViolations = ex.getAllErrors();
+        if(!CollectionUtils.isEmpty(constraintViolations)) {
+            constraintViolations
+                    .forEach(constraintViolation -> {
+                        String propertyPath = FieldError.class.isAssignableFrom(constraintViolation.getClass()) ? FieldError.class.cast(constraintViolation).getField() : constraintViolation.getObjectName();
+                        String message = constraintViolation.getDefaultMessage();
+                        problemDetail.setProperty(propertyPath, message);
+                    });
+        } else {
+            problemDetail.setDetail(ex.getLocalizedMessage());
+        }
+
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(problemDetail);
+    }
 }

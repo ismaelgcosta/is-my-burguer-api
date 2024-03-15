@@ -8,6 +8,7 @@ import br.com.ismyburguer.produto.web.api.response.ListarProdutoResponse;
 import br.com.ismyburguer.produto.adapter.interfaces.in.ListarProdutoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +31,7 @@ public class ListarProdutoAPI {
         this.listarProdutoConverter = listarProdutoConverter;
     }
 
-    @Operation(description = "Listar Produtos por Categoria")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Listar Produtos por Categoria")
     @GetMapping("/categorias/{categoria}")
     public List<ListarProdutoResponse> listarProdutos(
             @Valid
