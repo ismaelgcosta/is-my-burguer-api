@@ -5,6 +5,7 @@ import br.com.ismyburguer.pagamento.adapter.interfaces.in.ConsultarPagamentoPorP
 import br.com.ismyburguer.pagamento.web.api.converter.ConsultaPagamentoPedidoConverter;
 import br.com.ismyburguer.pagamento.web.api.response.ConsultaPagamentoPedidoResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -26,7 +27,7 @@ public class ConsultarPagamentoPedidoAPI {
         this.consultaPagamentoPedidoConverter = consultaPagamentoPedidoConverter;
     }
 
-    @Operation(description = "Consultar Pagamento")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Consultar Pagamento")
     @GetMapping("/{pedidoId}/pagamento")
     public ConsultaPagamentoPedidoResponse obter(@Valid @UUID @PathVariable(name = "pedidoId") String pedidoId) {
         return consultaPagamentoPedidoConverter.convert(consultarPagamentoPorPedidoUseCase.consultar(pedidoId));

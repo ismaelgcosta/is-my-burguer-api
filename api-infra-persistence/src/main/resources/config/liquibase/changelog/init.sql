@@ -7,7 +7,7 @@ drop table if exists pagamento cascade;
 drop table if exists pedido cascade;
 drop table if exists produto cascade;
 drop table if exists controle_pedido cascade;
-create table cliente (ativo boolean not null, cliente_id uuid not null, cpf varchar(255), email varchar(255), nome varchar(255), sobrenome varchar(255), primary key (cliente_id), constraint uk_cliente_email unique (email));
+create table cliente (ativo boolean not null, cliente_id uuid not null, cpf varchar(255), email varchar(255), username varchar(255) not null, nome varchar(255), sobrenome varchar(255), primary key (cliente_id), constraint uk_cliente_username unique (username), constraint uk_cliente_email unique (email), constraint uk_cliente_cpf unique NULLS NOT DISTINCT (cpf));
 create table pedido (valor_total numeric(38,2), cliente_id uuid references cliente(cliente_id), pedido_id uuid not null, status_pedido varchar(255) check (status_pedido in ('ABERTO','FECHADO','PAGO','AGUARDANDO_PAGAMENTO','PAGAMENTO_NAO_AUTORIZADO','RECEBIDO','EM_PREPARACAO','PRONTO','FINALIZADO')), primary key (pedido_id));
 create table produto (ativo boolean not null, preco numeric(38,2) not null, produto_id uuid not null, categoria varchar(255) not null check (categoria in ('LANCHE','ACOMPANHAMENTO','BEBIDA','SOBREMESA')), descricao varchar(255), primary key (produto_id));
 create table pagamento (valor_total numeric(38,2), pagamento_id uuid not null, pedido_id uuid references pedido(pedido_id), forma_pagamento varchar(255) check (forma_pagamento in ('MERCADO_PAGO')), qr_code varchar(255), status_pagamento varchar(255) check (status_pagamento in ('AGUARDANDO_CONFIRMACAO','NAO_AUTORIZADO','PAGO')), tipo_pagamento varchar(255) check (tipo_pagamento in ('QR_CODE')), primary key (pagamento_id));

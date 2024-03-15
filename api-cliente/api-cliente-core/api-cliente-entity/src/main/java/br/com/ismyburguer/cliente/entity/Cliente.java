@@ -5,9 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -29,6 +27,10 @@ public class Cliente implements Validation {
     @Valid
     private CPF cpf;
 
+    @Valid
+    @Setter
+    private Username username;
+
     public Cliente(Nome nome) {
         this.nome = nome;
     }
@@ -39,13 +41,24 @@ public class Cliente implements Validation {
         this.cpf = cpf;
     }
 
+    public Cliente(ClienteId clienteId, Nome nome, Email email, CPF cpf) {
+        this.clienteId = clienteId;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+    }
+
     public Optional<CPF> getCpf() {
         return Optional.ofNullable(cpf);
     }
 
+    public Optional<Username> getUsername() {
+        return Optional.ofNullable(username);
+    }
 
     @Getter
     @AllArgsConstructor
+    @EqualsAndHashCode
     public static class ClienteId {
 
         @NotNull(message = "Informe o código do Cliente")
@@ -70,6 +83,10 @@ public class Cliente implements Validation {
         String nome;
 
         String sobrenome;
+
+        public Nome(String nome) {
+            this.nome = nome;
+        }
     }
 
     @Getter
@@ -78,6 +95,16 @@ public class Cliente implements Validation {
 
         @org.hibernate.validator.constraints.br.CPF
         private String numero;
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Username {
+
+        @NotBlank(message = "Informe o campo username")
+        @Size(min = 3, message = "O username deve conter pelo menos 3 letras")
+        private String username;
 
     }
 

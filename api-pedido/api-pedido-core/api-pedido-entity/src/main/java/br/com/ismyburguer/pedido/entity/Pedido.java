@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -24,6 +25,7 @@ public class Pedido implements Validation {
     private PedidoId pedidoId;
 
     @Valid
+    @Setter
     private ClienteId clienteId;
 
     private StatusPedido statusPedido = StatusPedido.ABERTO;

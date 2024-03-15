@@ -7,7 +7,6 @@ management:
       base-path: /rest/actuator
       exposure:
         include: '*'
-
 springdoc:
   version: '@springdoc.version@'
   swagger-ui:
@@ -22,8 +21,42 @@ springdoc:
     disabled: true
 server:
   forward-headers-strategy: framework
-
+aws:
+  api-gateway: https://${AWS_API_GATEWAY_ID}.execute-api.${AWS_REGION}.amazonaws.com
+  region: ${AWS_REGION}
+  cognito:
+    client-id: ${CLIENT_CREDENTIALS_ID}
+    client-secret: ${CLIENT_CREDENTIALS_SECRET}
+    domain: ${CLIENT_DOMAIN}
+    user-pool-id: ${AWS_COGNITO_USER_POOL_ID}
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          cognito:
+            client-id: ${CLIENT_CREDENTIALS_ID}
+#            clientName: ${aws.cognito.client-name}
+#            scope: aws.cognito.signin.user.admin,email,openid,phone,profile
+
+        provider:
+          cognito:
+            authorization-uri: https://${aws.cognito.domain}.auth.${aws.region}.amazoncognito.com/oauth2/authorize
+            token-uri: https://${aws.cognito.domain}.auth.${aws.region}.amazoncognito.com/oauth2/token
+            user-info-uri: https://${aws.cognito.domain}.auth.${aws.region}.amazoncognito.com/oauth2/userInfo
+            jwk-set-uri: https://cognito-idp.${aws.region}.amazonaws.com/${aws.cognito.user-pool-id}/.well-known/jwks.json
+            issuerUri: https://cognito-idp.${aws.region}.amazonaws.com/${aws.cognito.user-pool-id}
+            user-name-attribute: username
+            authorization-grant-type: authorization_code
+
+        resourceserver:
+          cognito:
+            jws-algorithms: RS256
+            jwk-set-uri: https://cognito-idp.${aws.region}.amazonaws.com/${aws.cognito.user-pool-id}/.well-known/jwks.json
+            issuer-uri: https://cognito-idp.${aws.region}.amazonaws.com/${aws.cognito.user-pool-id}
+
+        thymeleaf:
+          cache: false
   liquibase:
     enabled: true
   # Quartz
@@ -35,7 +68,7 @@ spring:
   thread-executor: standard
   docker:
     compose:
-      # para testar em ambiente kubernetes locals
+      # para testar em ambiente kubernetes local (docker desktop, minikube, etc)
       enabled: true
       file: compose-base.yaml
       ports:
@@ -45,23 +78,23 @@ spring:
         - mongodb-ismyburguer:/data/db
 
 # Database - Postgres
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://${POSTGRES_HOST}:5433/ismyburguer
-#    username: ${POSTGRES_USER}
-#    password: ${POSTGRES_PASSWORD}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/ismyburguer
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
 
 # Database - H2 - PARA TESTES
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:ismyburguer
-    username: test
-    password: test
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:ismyburguer
+#    username: test
+#    password: test
+#  h2:
+#    console:
+#      enabled: false
+#      settings:
+#        web-allow-others: false
 
   # JPA properties
   jpa:
@@ -71,17 +104,10 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     show-sql: true
-    database: h2
-    database-platform: org.hibernate.dialect.H2Dialect
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
-#    properties:
-#      hibernate:
-#        default_schema: public
-#        default_catalog: public
-  data:
-    # MONGODB properties
-# no momento ainda não está sendo usado dentro do projeto
-#    mongodb:
-#      user: ${MONGO_USERNAME}
-#      password: ${MONGO_PASSWORD}
-#      uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb-ismyburguer:27018/ismyburguer?authSource=admin
+    properties:
+      hibernate:
+        default_schema: public
+        default_catalog: public

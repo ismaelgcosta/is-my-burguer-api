@@ -4,6 +4,7 @@ package br.com.ismyburguer.produto.web.api.controller;
 import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import br.com.ismyburguer.produto.adapter.interfaces.in.InativarProdutoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -23,7 +24,7 @@ public class InativarProdutoAPI {
         this.useCase = useCase;
     }
 
-    @Operation(description = "Inativar Produto")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Inativar Produto")
     @DeleteMapping("/{produtoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void inativarProduto(

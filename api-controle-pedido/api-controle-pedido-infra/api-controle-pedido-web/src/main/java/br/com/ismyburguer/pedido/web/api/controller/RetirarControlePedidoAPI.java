@@ -5,6 +5,7 @@ import br.com.ismyburguer.controlepedido.adapter.interfaces.in.RetirarControlePe
 import br.com.ismyburguer.controlepedido.entity.ControlePedido;
 import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -24,7 +25,7 @@ public class RetirarControlePedidoAPI {
         this.useCase = useCase;
     }
 
-    @Operation(description = "Retirar Pedido")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Retirar Pedido")
     @PutMapping("/{pedidoId}/retirada")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void retirarPedido(

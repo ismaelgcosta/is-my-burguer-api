@@ -1,6 +1,6 @@
 # Is My Burguer
 
-Projeto para aplicação de conhecimentos da Fase 2 da Pós-Graduação em SOFTWARE ARCHITECTURE da FIAP
+Projeto para aplicação de conhecimentos da Fase 3 da Pós-Graduação em SOFTWARE ARCHITECTURE da FIAP
 
 # Requisitos necessários para compilar o projeto
 
@@ -16,12 +16,6 @@ Ter o Java 20 instalado na sua máquina:
 
 [JDK 20](https://jdk.java.net/java-se-ri/20)
 
-
-Ter o Kubectl instalado na sua máquina:
-
-[Kubectl](https://kubernetes.io/docs/tasks/tools/)
-
-
 # Como fazer o build do projeto e da imagem docker
 
 
@@ -35,21 +29,10 @@ Na pasta raiz do projeto rodar o comando abaixo:
 
 ## Linux
 
-Na pasta raiz do projeto rodar o comando abaixo:
+Na pasta shell do projeto rodar o comando abaixo:
 
 ```
 /bin/bash docker-build.sh
-```
-
-# Como fazer o construir o ambiente de deploy no kubernetes
-(os testes foram feitos utilizando o Kubernetes embarcado do Docker Desktop)
-
-## Windows & Linux
-
-Na pasta kubernetes do projeto rodar o comando abaixo:
-
-```
-kubectl apply -f .
 ```
 
 # Swagger

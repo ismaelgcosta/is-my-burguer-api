@@ -5,6 +5,7 @@ import br.com.ismyburguer.controlepedido.adapter.interfaces.in.PrepararControleP
 import br.com.ismyburguer.controlepedido.entity.ControlePedido;
 import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -24,7 +25,7 @@ public class PrepararControlePedidoAPI {
         this.useCase = useCase;
     }
 
-    @Operation(description = "Preparar Pedido")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Preparar Pedido")
     @PutMapping("/{pedidoId}/em-preparacao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void prepararPedido(

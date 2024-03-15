@@ -21,14 +21,15 @@
         <module>api-infra</module>
         <module>api-infra-persistence</module>
         <module>api-infra-web</module>
+        <module>api-infra-oauth</module>
         <module>api-common-entity</module>
         <module>api-pedido</module>
         <module>api-cliente</module>
         <module>api-pagamento</module>
         <module>api-promocao</module>
         <module>api-controle-pedido</module>
-        <module>api-main-build</module>
         <module>api-produto</module>
+        <module>api-main-build</module>
     </modules>
 
     <properties>

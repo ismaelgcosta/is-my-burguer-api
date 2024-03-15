@@ -6,6 +6,7 @@ import br.com.ismyburguer.produto.web.api.converter.AlterarProdutoRequestConvert
 import br.com.ismyburguer.produto.web.api.request.AlterarProdutoRequest;
 import br.com.ismyburguer.produto.adapter.interfaces.in.AlterarProdutoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -25,11 +26,11 @@ public class AlterarProdutoAPI {
         this.converter = converter;
     }
 
-    @Operation(description = "Alterar Produto")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Alterar Produto")
     @PutMapping("/{produtoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void alterarProduto(
-            @PathVariable @Valid @UUID(message = "O código do produto informado está num formato inválido")String produtoId,
+            @PathVariable @Valid @UUID(message = "O código do produto informado está num formato inválido") String produtoId,
             @RequestBody AlterarProdutoRequest request
     ) {
         useCase.alterar(produtoId, converter.convert(request));
