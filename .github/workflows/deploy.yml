@@ -83,7 +83,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
+        run: ls #docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
 
       - name: Push the Docker image
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -94,12 +94,12 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
-    
+
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
-        working-directory: /terraform
         shell: bash
+        working-directory: ./terraform
 
     steps:            
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
