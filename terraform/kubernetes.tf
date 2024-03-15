@@ -100,7 +100,7 @@ spec:
                 secretKeyRef:
                   name: is-my-burguer-cognito
                   key: api-gateway
-          image: docker.io/ismaelgcosta/is-my-burguer-app:is-my-burguer-api-3.0.1
+          image: docker.io/ismaelgcosta/is-my-burguer-app:${var.TF_VAR_IMAGE_VERSION}
           ports:
             - containerPort: 8080
       restartPolicy: Always
