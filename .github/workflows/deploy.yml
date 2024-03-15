@@ -94,11 +94,13 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
+      env:
+        TERRAFORM_CLI_PATH: ${{ github.workspace }}/terraform
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
-        shell: bash
+        shell: bash    
 
     steps:            
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
