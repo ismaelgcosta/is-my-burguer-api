@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     env:
-      IMAGE_NAME: is-my-burguer-api-v${{IMAGE_VERSION}}
+      IMAGE_NAME: is-my-burguer-api-v${{env.IMAGE_VERSION}}
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
