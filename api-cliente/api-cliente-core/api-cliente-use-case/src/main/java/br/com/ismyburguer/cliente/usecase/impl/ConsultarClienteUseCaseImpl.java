@@ -25,7 +25,7 @@ public class ConsultarClienteUseCaseImpl implements ConsultarClienteUseCase {
 
     @Override
     public Cliente buscarPorCpf(ConsultaClientePorCpf query) {
-        return repository.obterPeloEmail(query.cpf())
+        return repository.obterPeloCpf(query.cpf())
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não foi encontrado"));
     }
     @Override
