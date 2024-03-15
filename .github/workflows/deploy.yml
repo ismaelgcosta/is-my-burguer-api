@@ -87,7 +87,7 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
 
       - name: Push the Docker image
-        #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: docker image push ${{ secrets.DOCKERHUB_USERNAME }}/is-my-burguer-app:${{env.IMAGE_NAME}}
         
   terraform:
