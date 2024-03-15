@@ -13,7 +13,8 @@ public class ClienteToClienteModelConverter implements Converter<Cliente, Client
                 source.getNome().getNome(),
                 source.getNome().getSobrenome(),
                 source.getEmail().getEndereco(),
-                source.getCpf().map(Cliente.CPF::getNumero).orElse(null)
+                source.getCpf().map(Cliente.CPF::getNumero).orElse(null),
+                source.getUsername().map(Cliente.Username::getUsername).orElse(null)
         );
     }
 }

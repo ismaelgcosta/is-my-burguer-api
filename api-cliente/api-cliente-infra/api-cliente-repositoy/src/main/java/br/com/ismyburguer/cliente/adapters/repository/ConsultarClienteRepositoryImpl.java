@@ -33,7 +33,25 @@ public class ConsultarClienteRepositoryImpl implements ConsultarClienteRepositor
     }
 
     @Override
+    public Optional<Cliente> obterPeloClienteUsername(String username) {
+        return clienteRepository.findByUsername(username)
+                .map(converter::convert);
+    }
+
+    @Override
+    public Optional<Cliente> obterPeloCpf(String cpf) {
+        return clienteRepository.findByCpf(cpf)
+                .map(converter::convert);
+    }
+
+    @Override
     public boolean existsById(UUID clienteId) {
         return clienteRepository.existsById(clienteId);
     }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return clienteRepository.existsByUsername(username);
+    }
+
 }

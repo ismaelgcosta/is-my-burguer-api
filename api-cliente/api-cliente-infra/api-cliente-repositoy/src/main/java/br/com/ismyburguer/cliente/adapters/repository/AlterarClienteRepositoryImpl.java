@@ -15,12 +15,9 @@ import java.util.UUID;
 @PersistenceAdapter
 public class AlterarClienteRepositoryImpl implements AlterarClienteRepository {
     private final ClienteRepository clienteRepository;
-    private final ClienteToClienteModelConverter converter;
 
-    public AlterarClienteRepositoryImpl(ClienteRepository clienteRepository,
-                                        ClienteToClienteModelConverter converter) {
+    public AlterarClienteRepositoryImpl(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
-        this.converter = converter;
     }
 
     public void alterarCliente(String clienteId, @Valid Cliente cliente) {
@@ -29,7 +26,9 @@ public class AlterarClienteRepositoryImpl implements AlterarClienteRepository {
             throw new EntityNotFoundException("Cliente não foi encontrado");
         }
 
-        ClienteModel clienteModel = converter.convert(cliente);
+        ClienteModel clienteModel = clienteRepository.findById(uuid).get();
+        clienteModel.setNome(cliente.getNome().getNome());
+        clienteModel.setSobrenome(cliente.getNome().getSobrenome());
         clienteModel.setClienteId(uuid);
         clienteRepository.save(clienteModel);
     }

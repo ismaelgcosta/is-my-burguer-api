@@ -6,6 +6,7 @@ import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import br.com.ismyburguer.pedido.web.api.converter.ListarControlePedidoConverter;
 import br.com.ismyburguer.pedido.web.api.response.ListarControlePedidoResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class ListarControlePedidoAPI {
         this.listarControlePedidoConverter = listarControlePedidoConverter;
     }
 
-    @Operation(description = "Listar Pedidos Recebidos/Em Preparação/Prontos")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Listar Pedidos Recebidos/Em Preparação/Prontos")
     @GetMapping
     public List<ListarControlePedidoResponse> listar() {
         return listarControlePedidoUseCase.listar().stream().map(listarControlePedidoConverter::convert).toList();

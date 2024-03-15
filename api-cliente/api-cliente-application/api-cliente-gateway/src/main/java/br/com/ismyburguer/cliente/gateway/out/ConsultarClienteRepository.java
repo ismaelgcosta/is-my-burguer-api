@@ -8,5 +8,8 @@ import java.util.UUID;
 public interface ConsultarClienteRepository {
     Optional<Cliente> obterPeloClienteId(UUID clienteId);
     Optional<Cliente> obterPeloEmail(String email);
+    Optional<Cliente> obterPeloClienteUsername(String username);
+    Optional<Cliente> obterPeloCpf(String cpf);
     boolean existsById(UUID clienteId);
+    boolean existsByUsername(String username);
 }

@@ -5,6 +5,8 @@ import br.com.ismyburguer.cliente.entity.Cliente;
 import br.com.ismyburguer.core.adapter.Converter;
 import br.com.ismyburguer.core.adapter.out.PersistenceConverter;
 
+import java.util.Optional;
+
 @PersistenceConverter
 public class ClienteModelToClienteConverter implements Converter<ClienteModel, Cliente> {
     @Override
@@ -13,7 +15,8 @@ public class ClienteModelToClienteConverter implements Converter<ClienteModel, C
                 new Cliente.ClienteId(source.getClienteId()),
                 new Cliente.Nome(source.getNome(), source.getSobrenome()),
                 new Cliente.Email(source.getEmail()),
-                source.getCpf().map(Cliente.CPF::new).orElse(null)
+                source.getCpf().map(Cliente.CPF::new).orElse(null),
+                Optional.ofNullable(source.getUsername()).map(Cliente.Username::new).orElse(null)
         );
     }
 }

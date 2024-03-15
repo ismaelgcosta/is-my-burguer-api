@@ -5,6 +5,7 @@ import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import br.com.ismyburguer.pedido.entity.Pedido;
 import br.com.ismyburguer.pedido.adapter.interfaces.in.PagarPedidoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -20,7 +21,7 @@ public class PagarPedidoAPI {
         this.useCase = useCase;
     }
 
-    @Operation(description = "Pagar Pedido")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Pagar Pedido")
     @PutMapping("/{pedidoId}/pagamento")
     public String pagarPedido(
             @PathVariable @Valid @UUID(message = "O código do pedido informado está num formato inválido") String pedidoId

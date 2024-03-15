@@ -21,7 +21,9 @@ import java.util.UUID;
 @Setter
 @Table(name = "cliente",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_cliente_email", columnNames = "email")
+                @UniqueConstraint(name = "uk_cliente_email", columnNames = "email"),
+                @UniqueConstraint(name = "uk_cliente_username", columnNames = "username"),
+                @UniqueConstraint(name = "uk_cliente_cpf", columnNames = "cpf")
         }
 )
 public class ClienteModel {
@@ -43,6 +45,10 @@ public class ClienteModel {
 
     private boolean ativo = true;
 
+    @NotBlank(message = "Informe o campo username")
+    @Size(min = 3, message = "O username deve conter pelo menos 3 letras")
+    private String username;
+
     public ClienteModel() {
     }
 
@@ -51,6 +57,14 @@ public class ClienteModel {
         this.sobrenome = sobrenome;
         this.email = email;
         this.cpf = cpf;
+    }
+
+    public ClienteModel(String nome, String sobrenome, String email, String cpf, String username) {
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.email = email;
+        this.cpf = cpf;
+        this.username = username;
     }
 
     public Optional<String> getCpf() {

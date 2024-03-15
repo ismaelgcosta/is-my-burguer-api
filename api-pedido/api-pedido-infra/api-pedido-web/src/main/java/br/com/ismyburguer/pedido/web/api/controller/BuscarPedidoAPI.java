@@ -7,6 +7,7 @@ import br.com.ismyburguer.pedido.entity.Pedido;
 import br.com.ismyburguer.pedido.adapter.interfaces.in.ConsultarPedidoUseCase;
 import br.com.ismyburguer.core.adapter.in.WebAdapter;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.UUID;
@@ -27,7 +28,7 @@ public class BuscarPedidoAPI {
         this.buscarPedidoConverter = buscarPedidoConverter;
     }
 
-    @Operation(description = "Consultar Pedido")
+    @Operation(security = @SecurityRequirement(name = "Bearer Authentication"), description = "Consultar Pedido")
     @GetMapping("/{pedidoId}")
     public BuscarPedidoResponse obter(@Valid @UUID @PathVariable(name = "pedidoId") String pedidoId) {
         return buscarPedidoConverter.convert(consultarPedidoUseCase.buscarPorId(new Pedido.PedidoId(pedidoId)));
