@@ -52,6 +52,7 @@ on:
 env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: is-my-burguer-api-1.${{ github.run_id }}
+  TERRAFORM_CLI_PATH: ${{ github.workspace }}/terraform
 
 permissions:
   contents: read
@@ -94,8 +95,6 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
-      env:
-        TERRAFORM_CLI_PATH: ${{ github.workspace }}/terraform
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
