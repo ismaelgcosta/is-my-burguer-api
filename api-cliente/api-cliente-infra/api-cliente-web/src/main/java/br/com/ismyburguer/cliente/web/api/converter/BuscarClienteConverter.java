@@ -23,7 +23,8 @@ public class BuscarClienteConverter implements Converter<Cliente, BuscarClienteR
                 source.getNome().getNome(),
                 source.getNome().getSobrenome(),
                 source.getCpf().map(Cliente.CPF::getNumero).orElse(null),
-                source.getEmail().getEndereco()
+                source.getEmail().getEndereco(),
+                source.getUsername().map(Cliente.Username::getUsername).orElse(null)
         );
     }
 }

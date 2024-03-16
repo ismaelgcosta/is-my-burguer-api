@@ -16,5 +16,6 @@ public class BuscarClienteResponse {
     private String sobrenome;
     private String cpf;
     private String email;
+    private String username;
 
 }

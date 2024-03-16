@@ -16,6 +16,8 @@ public interface ConsultarClienteUseCase extends ExistsByIdUseCase<Cliente>, Exi
 
     Cliente buscarPorUsername(ConsultaClientePorUsername query);
 
+    boolean existsByCpf(String username);
+
     record ConsultaCliente(String email) {
 
     }

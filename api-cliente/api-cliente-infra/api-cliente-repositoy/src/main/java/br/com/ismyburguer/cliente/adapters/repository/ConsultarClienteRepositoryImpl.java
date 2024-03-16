@@ -54,4 +54,9 @@ public class ConsultarClienteRepositoryImpl implements ConsultarClienteRepositor
         return clienteRepository.existsByUsername(username);
     }
 
+    @Override
+    public boolean existsByCpf(String cpf) {
+        return clienteRepository.existsByCpf(cpf);
+    }
+
 }

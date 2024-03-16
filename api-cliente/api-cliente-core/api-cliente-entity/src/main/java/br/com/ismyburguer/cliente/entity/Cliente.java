@@ -48,6 +48,13 @@ public class Cliente implements Validation {
         this.cpf = cpf;
     }
 
+    public Cliente(Nome nome, Email email, CPF cpf, Username username) {
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.username = username;
+    }
+
     public Optional<CPF> getCpf() {
         return Optional.ofNullable(cpf);
     }
@@ -82,6 +89,7 @@ public class Cliente implements Validation {
         @Size(min = 3, message = "O nome deve conter pelo menos 3 letras")
         String nome;
 
+        @Setter
         String sobrenome;
 
         public Nome(String nome) {
