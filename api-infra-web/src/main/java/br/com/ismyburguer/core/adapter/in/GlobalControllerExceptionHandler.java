@@ -39,7 +39,7 @@ class GlobalControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)  // 422
     @ExceptionHandler(BusinessException.class)
     ProblemDetail businessException(BusinessException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getLocalizedMessage());
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, e.getLocalizedMessage());
         problemDetail.setTitle(e.getMessage());
         problemDetail.setProperty("timestamp", Instant.now());
         return problemDetail;

@@ -12,4 +12,6 @@ public interface ConsultarClienteRepository {
     Optional<Cliente> obterPeloCpf(String cpf);
     boolean existsById(UUID clienteId);
     boolean existsByUsername(String username);
+
+    boolean existsByCpf(String cpf);
 }

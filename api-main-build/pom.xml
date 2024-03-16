@@ -25,7 +25,13 @@
 
         <dependency>
             <groupId>br.com.ismyburguer</groupId>
-            <artifactId>api-infra-oauth</artifactId>
+            <artifactId>api-infra-oauth-use-case</artifactId>
+            <version>${packing.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>br.com.ismyburguer</groupId>
+            <artifactId>api-infra-oauth-web</artifactId>
             <version>${packing.version}</version>
         </dependency>
 

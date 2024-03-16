@@ -48,4 +48,8 @@ public class ConsultarClienteUseCaseImpl implements ConsultarClienteUseCase {
     public boolean existsByUsername(String username) {
         return repository.existsByUsername(username);
     }
+    @Override
+    public boolean existsByCpf(String cpf) {
+        return repository.existsByCpf(cpf);
+    }
 }
