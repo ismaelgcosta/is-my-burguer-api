@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>api-infra-oauth-application</module>
         <module>api-infra-oauth-core</module>
+        <module>api-infra-oauth-application</module>
     </modules>
 
     <dependencies>
