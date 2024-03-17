@@ -17,7 +17,7 @@ data "aws_cognito_user_pool_client" "is-my-burguer-api-client" {
 }
 
 data "aws_db_instance" "is-my-burguer-postgres" {
-  db_instance_identifier = data.terraform_remote_state.is-my-burguer-postgres.outputs.identifier
+  db_instance_identifier = data.terraform_remote_state.is-my-burguer-postgres.outputs.database_instance 
 }
 
 data "terraform_remote_state" "is-my-burguer-postgres" {
