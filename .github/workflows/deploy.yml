@@ -78,6 +78,7 @@ jobs:
       run: mvn -B package --file pom.xml
       
   docker-build:
+    needs: [build]
     name: 'Docker Build'
     runs-on: ubuntu-latest
     environment: production
