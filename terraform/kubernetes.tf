@@ -195,7 +195,7 @@ resource "kubernetes_secret" "is-my-burguer-db" {
   data = {
     host = "${data.terraform_remote_state.is-my-burguer-postgres.outputs.database_endpoint_host}",
     port = "${data.terraform_remote_state.is-my-burguer-postgres.outputs.database_endpoint_port}",
-    username = "${var.TF_VAR_POSTGRES_USER}",
+    username = "${data.aws_db_instance.is-my-burguer-postgres.master_username}",
     password = "${var.TF_VAR_POSTGRES_PASSWORD}"
   }
 
@@ -216,11 +216,11 @@ resource "kubernetes_secret" "is-my-burguer-cognito" {
   immutable = false
 
   data = {
-    user-pool-id= "${data.terraform_remote_state.is-my-burguer-cognito.outputs.cognito_id}"
+    user-pool-id= "${data.aws_cognito_user_pool_client.is-my-burguer-api-client.user_pool_id}"
     api-gateway= "${data.terraform_remote_state.is-my-burguer-cognito.outputs.api_gateway_domain}"
     cognito_domain= "${data.terraform_remote_state.is-my-burguer-cognito.outputs.cognito_domain}"
     username = "${data.terraform_remote_state.is-my-burguer-cognito.outputs.is-my-burguer-api-client-id}",
-    password = "${var.TF_VAR_COGNITO_PASSWORD}"
+    password = "${data.aws_cognito_user_pool_client.is-my-burguer-api-client.client_secret}"
   }
 
   type = "kubernetes.io/basic-auth"
